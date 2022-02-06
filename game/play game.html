@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="play game.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <scrip src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</head>
+<body onload="startsound(),startGame()">
+    <div class="logo">
+        <img src="logo.png" alt="" class="logoimg">
+    </div>
+    <div style="height: 30px;"></div>
+    
+    <div class="container">
+        <div class="question">
+            <section id="quesection">
+                <div style="color: white;">
+                    <p>Que. &nbsp; <span id="question"></span></p>
+                    <span id="options">
+                        <button id="op1" class="button ribbon-outset border" onclick="fun(value)" value=""></button>
+                        <button id="op2" class="button ribbon-outset border" onclick="fun(value)" value=""></button>
+                        <button id="op3" class="button ribbon-outset border" onclick="fun(value)" value=""></button>
+                        <button id="op4" class="button ribbon-outset border" onclick="fun(value)" value=""></button>
+                    </span>
+                </div>
+            </section>
+        </div>
+
+
+        <div class="level">
+        <section>
+            <p><span id = "corr" style="border: 2px solid blue;">click to Answer</span></p>
+            <p>You are currently on <span id = "level" style="border: 2px solid blue;">1</span> Level</p>
+            <p>Congo! your strek is <span id = "strek" style="border: 2px solid blue;"> 0 </span><br></p>
+            <p>Your current score is <span id = "score" style="border: 2px solid blue;">0</span> Points</p>
+        </section>
+        </div>
+
+
+
+        <div class="power-up" id="section">
+            <section>
+                <span id="poweru"><i class="fas fa-forward" onclick="power()" style="color:blue;font-size: 50px;"></i>
+                <h6>Use this powerup to find the Correct Answer but your 1200 pts will be deducted and strek will also lost.</h6>
+                <span id="powerup"></span>
+            
+            </span>   
+            </section>
+        </div>
+    </div>
+
+
+      <script>
+
+var allanswers = [];
+          var mydata;
+          var flag = 0;
+          var currcash = 0;
+          var strek = 0;
+          var level = 1;
+          var correctans;
+
+
+        function startGame(){
+          fetch("https://opentdb.com/api.php?amount=1&type=multiple")
+          .then((res)=>{return res.json();})
+          .then((data) => {
+              console.log(data);
+              document.getElementById('question').innerHTML = "<i>" + data.results[0].question + "</i>";
+              correctans = data.results[0].correct_answer;
+              data.results[0].incorrect_answers.push(data.results[0].correct_answer)
+              data.results[0].incorrect_answers.sort(() => (Math.random() > .5) ? 1 : -1);
+              console.log(data.results[0].incorrect_answers);
+              mydata = data;
+              document.getElementById('op1').innerHTML = data.results[0].incorrect_answers[0] + "<br>";
+              document.getElementById("op1").value = data.results[0].incorrect_answers[0];
+              document.getElementById('op2').innerHTML = data.results[0].incorrect_answers[1] + "<br>";
+              document.getElementById("op2").value = data.results[0].incorrect_answers[1];
+              document.getElementById('op3').innerHTML = data.results[0].incorrect_answers[2] + "<br>";
+              document.getElementById("op3").value = data.results[0].incorrect_answers[2];
+              document.getElementById('op4').innerHTML = data.results[0].incorrect_answers[3] + "<br>";
+              document.getElementById("op4").value = data.results[0].incorrect_answers[3];
+            })
+          .catch((err) => {console.log(err);})
+          document.getElementById('powerup').innerHTML = " ";
+        }
+        
+        function power(){
+            if(currcash >= 1200){
+               document.getElementById('powerup').innerHTML = "Correct Answer is " + correctans;
+               currcash = currcash - 1200;
+               document.getElementById('score').innerHTML = currcash;
+               strek = 0;
+               document.getElementById('strek').innerHTML = strek;
+                return;
+            }
+            else{
+                document.getElementById('powerup').innerHTML = "Sorry you don't have enough points";
+            }
+        }
+
+          function fun(e){
+              console.log(e);
+
+              if(e == mydata.results[0].correct_answer){
+              flag = 1;
+              console.log("correct");
+              currcash = currcash + 1000;
+              strek = strek + 1;
+              level = level + 1;
+              document.getElementById('corr').innerHTML = "Correct Answer";
+              document.getElementById('score').innerHTML = currcash;
+              document.getElementById('strek').innerHTML = strek;
+              document.getElementById('strek').innerHTML = level;
+              startGame();
+
+            }
+              else{
+              flag = 0;
+              console.log("incorrect");
+              stopsound();
+              document.getElementById('quesection').innerHTML = "Game Over <br> <a href = 'index.html'><button>Play Again</button></a>";
+              }
+            
+          }
+      </script>
+      <script>
+        var mySound;
+        var myMusic;
+        myMusic = new sound("quiz music.mp3");
+        function startsound(){
+          myMusic.play();
+        }
+        function stopsound(){
+          myMusic.stop();
+        }
+        function sound(src) {
+            this.sound = document.createElement("audio");
+            this.sound.src = src;
+            this.sound.setAttribute("preload", "auto");
+            this.sound.setAttribute("controls", "none");
+            this.sound.style.display = "none";
+            document.body.appendChild(this.sound);
+            this.play = function(){
+            this.sound.play();
+            }
+            this.stop = function(){
+            this.sound.pause();
+            }    
+        }
+    </script>
+</body>
+</html>

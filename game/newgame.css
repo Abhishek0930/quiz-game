@@ -1,0 +1,66 @@
+body{
+  background-image: url('bg.jpg');
+  background-repeat: no-repeat; 
+  background-size: cover;
+}
+.logo{
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 5px;
+    width: 50%;
+    margin: 10px auto;
+}
+.logoimg{
+    height: 90px;
+    width: 100%;
+}
+@keyframes logo {
+    0%   {transform: translate3d(0,0,0) scale3d(1,1,1);}
+    40%  {transform: translate3d(0,30%,0) scale3d(.5,1,1.5);}
+    100% {transform: translate3d(0,100%,0) scale3d(1,.5,1);}
+  }
+  .logo {
+    transform-origin: 50% 50%;
+    animation: logo 1.2s linear alternate infinite;
+  }
+#1{
+  width: 50%;
+  padding-top: 100px;
+  float: left;
+}
+.button {
+  width: 400px;;
+  background:rgb(0, 174, 255);
+  box-shadow:10px 10px 0 rgba(34, 34, 34, 0.5);
+  display:inline-block;
+  font-size:2em;
+  padding:.5em 2em;
+  margin-top: 17px;
+  left: -50px;
+  position: relative;
+  text-decoration:none;
+  transition: all 0.5s ease-out;
+  animation-name: hello;
+  animation-duration: 1s;
+}
+@keyframes hello {
+  0%   {background-color:white; left:-300px; top:0px;}
+  100%  {background-color:rgb(0, 174, 255); left:-50px; top:0px;}
+}
+
+.button:hover {
+
+  box-shadow: 0 0 0 ;
+}
+
+.parallelogram{
+  transform: skew(-20deg);
+}
+
+.skew-fix{
+  display:inline-block;
+  transform: skew(20deg);
+}
+
+footer{
+  float: right;
+}

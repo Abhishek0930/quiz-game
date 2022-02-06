@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="newgame.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+    <scrip src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</head>
+<body onload="startGame()">
+    <div class="logo">
+        <img src="logo.png" alt="" class="logoimg">
+    </div>
+    <div style="height: 70px;"></div>
+    <section id="1">
+        <a href="play game.html"><button class="button parallelogram" href="play game.html">Play Game</button></a><br>
+        <a href="high.html"><button class="button parallelogram" href="#">High Scores</button><br></a>
+        <button class="button parallelogram" href="#">Settings</button><br>
+        <a href="https://developerabhishek.netlify.app/"><button class="button parallelogram" href="https://developerabhishek.netlify.app/">About Us</button></a> 
+            <br>
+    </section>
+    <footer>
+        Made with ♥ by Abhishek Khullar
+    </footer>
+    <script>
+        var mySound;
+        var myMusic;
+        function startGame() {
+            myMusic = new sound("start music.mp3");
+            myMusic.play();
+        }
+        function sound(src) {
+            this.sound = document.createElement("audio");
+            this.sound.src = src;
+            this.sound.setAttribute("preload", "auto");
+            this.sound.setAttribute("controls", "none");
+            this.sound.style.display = "none";
+            document.body.appendChild(this.sound);
+            this.play = function(){
+            this.sound.play();
+            }
+            this.stop = function(){
+            this.sound.pause();
+            }    
+        }
+    </script>
+</body>
+</html>
